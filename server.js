@@ -2,6 +2,8 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
 
+
+
 const express = require('express')
 const app = express()
 const expressLayouts = require('express-ejs-layouts')
@@ -15,15 +17,11 @@ app.use(expressLayouts)
 app.use(express.static('public'))
 
 const mongoose = require('mongoose')
-// mongoose.connect(process.env.DATABASE_URL)
 
-// const db = mongoose.connection
-// db.on('error', error => console.error(error))
-// db.once('open', () => console.log('Connected to Mongoose'))
 
 const connect = async () => {
     try {
-        await mongoose.connect(process.env.DATABASE_URL)
+        await mongoose.connect(process.env.DATABASE_URL,  { useNewUrlParser: true })
         console.log('Connected to Mongoose')
     } catch (error) {
         console.error(`error: ${error}`)
@@ -33,6 +31,4 @@ const connect = async () => {
 connect()
 
 app.use('/', indexRouter)
-app.listen(process.env.PORT || 3000, () => {
-    console.log('server running')
-})
+app.listen(process.env.PORT || 3000)
